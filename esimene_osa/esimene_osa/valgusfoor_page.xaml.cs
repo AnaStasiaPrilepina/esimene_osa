@@ -49,7 +49,7 @@ namespace esimene_osa
 
             red_fr = new Frame
             {
-                Content = new Label { Text = "Stop", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
+                Content = new Label { Text = "red", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
                 BorderColor = Color.Red,
                 CornerRadius = 100,
                 WidthRequest = 100,
@@ -59,7 +59,7 @@ namespace esimene_osa
             };
             yellow_fr = new Frame
             {
-                Content = new Label { Text = "Ready", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
+                Content = new Label { Text = "yellow", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
                 BorderColor = Color.Yellow,
                 CornerRadius = 100,
                 WidthRequest = 100,
@@ -69,7 +69,7 @@ namespace esimene_osa
             };
             green_fr = new Frame
             {
-                Content = new Label { Text = "Go", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
+                Content = new Label { Text = "green", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
                 BorderColor = Color.Green,
                 CornerRadius = 100,
                 WidthRequest = 100,
@@ -101,26 +101,71 @@ namespace esimene_osa
         }
 
         bool IsAlive = true;
-
+        bool onoff = true;
+        private async void ShowTime()
+        {
+            if (onoff)
+            {
+                while (onoff == true)
+                {
+                    red_fr.BackgroundColor = Color.Red;
+                    await Task.Delay(500);
+                    red_fr.BackgroundColor = Color.Silver;
+                    await Task.Delay(500);
+                    yellow_fr.BackgroundColor = Color.Yellow;
+                    await Task.Delay(500);
+                    yellow_fr.BackgroundColor = Color.Silver;
+                    await Task.Delay(500);
+                    green_fr.BackgroundColor = Color.Green;
+                    await Task.Delay(500);
+                    green_fr.BackgroundColor = Color.Silver;
+                }
+            }
+            if (onoff == false)
+            {
+                red_fr.Content = new Label { Text = "Stop", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
+                yellow_fr.Content = new Label { Text = "Ready", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
+                green_fr.Content = new Label { Text = "Go", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
+            }
+        }
+        int taps;
         private void Valja_Clicked(object sender, EventArgs e)
         {
-            IsAlive = false;
-            red_fr.BackgroundColor = Color.White;
-            yellow_fr.BackgroundColor = Color.White;
-            green_fr.BackgroundColor = Color.White;
+            taps++;
+            if (taps % 2 != 0)
+            {
+                onoff = false;
+            }
+            else if (taps % 2 == 0)
+            {
+                IsAlive = false;
+                red_fr.BackgroundColor = Color.White;
+                yellow_fr.BackgroundColor = Color.White;
+                green_fr.BackgroundColor = Color.White;
+            }
         }
 
         private void Sisse_Clicked(object sender, EventArgs e)
         {
-            IsAlive = true;
-            red_fr.BackgroundColor = Color.Silver;
-            yellow_fr.BackgroundColor = Color.Silver;
-            green_fr.BackgroundColor = Color.Silver;
-            TapGestureRecognizer color = new TapGestureRecognizer();
-            color.Tapped += Color_Tapped;
-            red_fr.GestureRecognizers.Add(color);
-            yellow_fr.GestureRecognizers.Add(color);
-            green_fr.GestureRecognizers.Add(color);
+            taps++;
+            if (taps % 2 != 0)
+            {
+                onoff = true;
+                ShowTime();
+            }
+            else if (taps % 2 == 0)
+            {
+                onoff = false;
+                IsAlive = true;
+                red_fr.BackgroundColor = Color.Silver;
+                yellow_fr.BackgroundColor = Color.Silver;
+                green_fr.BackgroundColor = Color.Silver;
+                TapGestureRecognizer color = new TapGestureRecognizer();
+                color.Tapped += Color_Tapped;
+                red_fr.GestureRecognizers.Add(color);
+                yellow_fr.GestureRecognizers.Add(color);
+                green_fr.GestureRecognizers.Add(color);
+            }
         }
 
         private void Color_Tapped(object sender, EventArgs e)

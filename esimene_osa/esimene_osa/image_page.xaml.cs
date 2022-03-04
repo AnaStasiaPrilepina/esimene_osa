@@ -49,11 +49,11 @@ namespace esimene_osa
         {
             taps++;
             var imgsender = (Image)sender;
-            //if (taps % 2 == 0);
-            //{
-            //    img.Source = "rgb_circle.png";
-            //}
-            if (taps % 2 != 0) ;
+            if (taps % 2 == 0)
+            {
+                img.Source = "rgb_cube.png";
+            }
+            else if (taps % 2 != 0)
             {
                 img.Source = "rgb_triangle.png";
             }

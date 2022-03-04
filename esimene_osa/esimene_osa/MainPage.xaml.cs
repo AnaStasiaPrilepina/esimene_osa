@@ -12,7 +12,7 @@ namespace esimene_osa
     {
         public MainPage()
         {
-            Button ent_btn,timer_btn,boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn;
+            Button ent_btn, timer_btn, boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn;
             InitializeComponent();
             ent_btn = new Button
             {
