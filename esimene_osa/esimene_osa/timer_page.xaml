@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="esimene_osa.timer_page">
+    <ContentPage.Content>
+        <StackLayout>
+            <FlexLayout>
+                <Label x:Name="lbl"
+                       Text="Vajuta nuppule ja siia"
+                       FontSize="Medium"
+                       BackgroundColor="Beige">
+                    <!--<Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    </Label.GestureRecognizers>-->
+                </Label>
+                <Button x:Name="timer_btn"
+                    Text="Naita info"
+                    FontSize="Large"
+                    Clicked="timer_btn_Clicked">
+                </Button>
+            </FlexLayout>
+            <Button x:Name="tagasi"
+                    Text="Tagasi"
+                    FontSize="Large">
+                <!--Clicked="tagasi_Clicked"-->
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
