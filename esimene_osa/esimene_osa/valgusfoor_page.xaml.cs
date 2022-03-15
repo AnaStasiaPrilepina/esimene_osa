@@ -13,8 +13,11 @@ namespace esimene_osa
     public partial class valgusfoor_page : ContentPage
     {
         Label lbl;
-        Button sisse, valja;
-        Frame red_fr, yellow_fr, green_fr;
+        Frame gr_fr;
+        Button on, off;
+        BoxView red_box, yellow_box, green_box;
+        Label red_lbl, yellow_lbl, green_lbl;
+        Grid gr;
         public valgusfoor_page()
         {
             lbl = new Label
@@ -26,169 +29,207 @@ namespace esimene_osa
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center
             };
-            sisse = new Button
-            {
-                Text = "Turn on",
-                WidthRequest = 100,
-                HeightRequest = 50,
-                BackgroundColor = Color.LightBlue,
-                BorderColor = Color.Black,
-                BorderWidth = 1.5
-            };
-            valja = new Button
-            {
-                Text = "Turn off",
-                WidthRequest = 100,
-                HeightRequest = 50,
-                BackgroundColor = Color.LightBlue,
-                BorderColor = Color.Black,
-                BorderWidth = 1.5
-            };
-            sisse.Clicked += Sisse_Clicked;
-            valja.Clicked += Valja_Clicked;
 
-            red_fr = new Frame
+            on = new Button
             {
-                Content = new Label { Text = "red", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
-                BorderColor = Color.Red,
-                CornerRadius = 100,
-                WidthRequest = 100,
-                HeightRequest = 100,
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
+                Text = "On",
+                WidthRequest = 50,
+                HeightRequest = 50,
+                BackgroundColor = Color.Silver
             };
-            yellow_fr = new Frame
+            off = new Button
             {
-                Content = new Label { Text = "yellow", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
-                BorderColor = Color.Yellow,
-                CornerRadius = 100,
-                WidthRequest = 100,
-                HeightRequest = 100,
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
+                Text = "Off",
+                WidthRequest = 50,
+                HeightRequest = 50,
+                BackgroundColor = Color.Silver
             };
-            green_fr = new Frame
+            on.Clicked += On_Clicked;
+            off.Clicked += On_Clicked;
+
+            gr = new Grid
             {
-                Content = new Label { Text = "green", FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
-                BorderColor = Color.Green,
+                RowDefinitions =
+                {
+                    new RowDefinition { },      // int top = 0
+                    new RowDefinition { },      // int top = 1
+                    new RowDefinition { },      // int top = 2
+                },
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { },        // int left = 0
+                }
+            };
+
+            gr.Children.Add(red_box = new BoxView
+            {
+                Color = Color.LightGray,
                 CornerRadius = 100,
-                WidthRequest = 100,
-                HeightRequest = 100,
+                WidthRequest = 150,
+                HeightRequest = 150,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            }, 0, 0);
+            gr.Children.Add(red_lbl = new Label
+            {
+                Text = "red",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            }, 0, 0);
+
+            gr.Children.Add(yellow_box = new BoxView
+            {
+                Color = Color.LightGray,
+                CornerRadius = 100,
+                WidthRequest = 150,
+                HeightRequest = 150,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            }, 0, 1);
+            gr.Children.Add(yellow_lbl = new Label
+            {
+                Text = "yellow",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            }, 0, 1);
+
+            gr.Children.Add(green_box = new BoxView
+            {
+                Color = Color.LightGray,
+                CornerRadius = 100,
+                WidthRequest = 150,
+                HeightRequest = 150,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            }, 0, 2);
+            gr.Children.Add(green_lbl = new Label
+            {
+                Text = "green",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            }, 0, 2);
+
+            gr_fr = new Frame
+            {
+                Content = gr,
+                BorderColor = Color.Black,
+                CornerRadius = 50,
+                HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center
+                BackgroundColor = Color.Wheat
             };
 
             AbsoluteLayout abs = new AbsoluteLayout
             {
-                Children = { lbl, sisse, valja, red_fr, yellow_fr, green_fr }
+                Children = { lbl, on, off, gr_fr },
             };
-            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(0.5, 0, 100, 50));
-            AbsoluteLayout.SetLayoutFlags(lbl, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(sisse, new Rectangle(0.1, 0.09, 150, 50));
-            AbsoluteLayout.SetLayoutFlags(sisse, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(valja, new Rectangle(0.9, 0.09, 150, 50));
-            AbsoluteLayout.SetLayoutFlags(valja, AbsoluteLayoutFlags.PositionProportional);
-
-            AbsoluteLayout.SetLayoutBounds(red_fr, new Rectangle(0.5, 0.3, 150, 150));
-            AbsoluteLayout.SetLayoutFlags(red_fr, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(yellow_fr, new Rectangle(0.5, 0.6, 150, 150));
-            AbsoluteLayout.SetLayoutFlags(yellow_fr, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(green_fr, new Rectangle(0.5, 0.9, 150, 150));
-            AbsoluteLayout.SetLayoutFlags(green_fr, AbsoluteLayoutFlags.PositionProportional);
             Content = abs;
-            abs.BackgroundColor = Color.LightBlue;
 
+            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(0.5, 0, 100, 75));
+            AbsoluteLayout.SetLayoutFlags(lbl, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(on, new Rectangle(0.1, 0.05, 75, 75));
+            AbsoluteLayout.SetLayoutFlags(on, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(off, new Rectangle(0.9, 0.05, 75, 75));
+            AbsoluteLayout.SetLayoutFlags(off, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(gr_fr, new Rectangle(0.5, 1.5, 300, 700));
+            AbsoluteLayout.SetLayoutFlags(gr_fr, AbsoluteLayoutFlags.PositionProportional);
         }
 
-        bool IsAlive = true;
-        bool onoff = true;
-        private async void ShowTime()
+        bool onoff = false;
+        bool IsAlive = false;
+        private async void showtime()
         {
-            if (onoff)
+            TapGestureRecognizer color = new TapGestureRecognizer();
+            color.Tapped += Color_Tapped;
+            red_box.GestureRecognizers.Add(color);
+            yellow_box.GestureRecognizers.Add(color);
+            green_box.GestureRecognizers.Add(color);
+
+            while (onoff == true)
             {
-                while (onoff == true)
+                red_box.Color = Color.Red;
+                await Task.Delay(500);
+                red_box.Color = Color.LightGray;
+                await Task.Delay(500);
+                if (onoff == false)
                 {
-                    red_fr.BackgroundColor = Color.Red;
-                    await Task.Delay(500);
-                    red_fr.BackgroundColor = Color.Silver;
-                    await Task.Delay(500);
-                    yellow_fr.BackgroundColor = Color.Yellow;
-                    await Task.Delay(500);
-                    yellow_fr.BackgroundColor = Color.Silver;
-                    await Task.Delay(500);
-                    green_fr.BackgroundColor = Color.Green;
-                    await Task.Delay(500);
-                    green_fr.BackgroundColor = Color.Silver;
+                    color.Tapped -= Color_Tapped;
+                    break;
+                }
+                yellow_box.Color = Color.Yellow;
+                await Task.Delay(500);
+                yellow_box.Color = Color.LightGray;
+                await Task.Delay(500);
+                if (onoff == false)
+                {
+                    //color.Tapped -= Color_Tapped;
+                    break;
+                }
+                green_box.Color = Color.Green;
+                await Task.Delay(500);
+                green_box.Color = Color.LightGray;
+                await Task.Delay(500);
+                if (onoff == false)
+                {
+                    //color.Tapped -= Color_Tapped;
+                    break;
                 }
             }
-            if (onoff == false)
-            {
-                red_fr.Content = new Label { Text = "Stop", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
-                yellow_fr.Content = new Label { Text = "Ready", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
-                green_fr.Content = new Label { Text = "Go", FontAttributes = FontAttributes.Bold, FontSize = 24, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
-            }
-        }
-        int taps;
-        private void Valja_Clicked(object sender, EventArgs e)
-        {
-            taps++;
-            if (taps % 2 != 0)
-            {
-                onoff = false;
-            }
-            else if (taps % 2 == 0)
-            {
-                IsAlive = false;
-                red_fr.BackgroundColor = Color.White;
-                yellow_fr.BackgroundColor = Color.White;
-                green_fr.BackgroundColor = Color.White;
-            }
         }
 
-        private void Sisse_Clicked(object sender, EventArgs e)
+        private void On_Clicked(object sender, EventArgs e)
         {
-            taps++;
-            if (taps % 2 != 0)
+            if (sender == on)
             {
                 onoff = true;
-                ShowTime();
+                IsAlive = true;
+                showtime();
             }
-            else if (taps % 2 == 0)
+            else if (sender == off)
             {
                 onoff = false;
-                IsAlive = true;
-                red_fr.BackgroundColor = Color.Silver;
-                yellow_fr.BackgroundColor = Color.Silver;
-                green_fr.BackgroundColor = Color.Silver;
-                TapGestureRecognizer color = new TapGestureRecognizer();
-                color.Tapped += Color_Tapped;
-                red_fr.GestureRecognizers.Add(color);
-                yellow_fr.GestureRecognizers.Add(color);
-                green_fr.GestureRecognizers.Add(color);
+                IsAlive = false;
+                red_lbl.Text = "red";
+                red_box.Color = Color.LightGray;
+                yellow_lbl.Text = "yellow";
+                yellow_box.Color = Color.LightGray;
+                green_lbl.Text = "green";
+                green_box.Color = Color.LightGray;
             }
         }
 
         private void Color_Tapped(object sender, EventArgs e)
         {
-            if (IsAlive)
+            if (IsAlive == true)
             {
-                if (sender == red_fr)
+                onoff = false;
+                red_lbl.Text = "STOP";
+                yellow_lbl.Text = "READY";
+                green_lbl.Text = "GO";
+
+                if (sender == red_box)
                 {
-                    red_fr.BackgroundColor = Color.Red;
-                    yellow_fr.BackgroundColor = Color.Silver;
-                    green_fr.BackgroundColor = Color.Silver;
+                    red_box.Color = Color.Red;
+                    yellow_box.Color = Color.LightGray;
+                    green_box.Color = Color.LightGray;
                 }
-                else if (sender == yellow_fr)
+                else if (sender == yellow_box)
                 {
-                    red_fr.BackgroundColor = Color.Silver;
-                    yellow_fr.BackgroundColor = Color.Yellow;
-                    green_fr.BackgroundColor = Color.Silver;
+                    red_box.Color = Color.LightGray;
+                    yellow_box.Color = Color.Yellow;
+                    green_box.Color = Color.LightGray;
                 }
-                else if (sender == green_fr)
+                else if (sender == green_box)
                 {
-                    red_fr.BackgroundColor = Color.Silver;
-                    yellow_fr.BackgroundColor = Color.Silver;
-                    green_fr.BackgroundColor = Color.Green;
+                    red_box.Color = Color.LightGray;
+                    yellow_box.Color = Color.LightGray;
+                    green_box.Color = Color.Green;
                 }
             }
         }
