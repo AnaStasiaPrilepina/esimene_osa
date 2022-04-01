@@ -17,6 +17,7 @@ namespace esimene_osa
         StackLayout st;
         string[] lehed = new string[4] { "https://tahvel.edu.ee", "https://moodle.edu.ee", "https://www.tthk.ee", "https://www.google.com" };
         Frame frame;
+        ImageButton home, back, next;
         public picker_page()
         {
             picker = new Picker
@@ -33,17 +34,37 @@ namespace esimene_osa
             swipe.Swiped += Swipe_Swiped;
             swipe.Direction = SwipeDirection.Right;
             //webView.GestureRecognizers.Add(swipe);
+
+            home = new ImageButton
+            {
+                Source = "home.png",
+            };
+            back = new ImageButton
+            {
+                Source = "back.png",
+            };
+            next = new ImageButton
+            {
+                Source = "next.jpg"
+            };
+            StackLayout buttons = new StackLayout 
+            { 
+                Children = {back, home, next},
+                Orientation = StackOrientation.Horizontal,
+            };
+
             frame = new Frame
             {
+                Content = buttons,
                 BorderColor = Color.Black,
-                CornerRadius = 50,
-                HeightRequest = 10,
+                CornerRadius = 30,
+                HeightRequest = 50,
                 WidthRequest = 400,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center
             };
             frame.GestureRecognizers.Add(swipe);
-            st = new StackLayout { Children = { picker, frame } };
+            st = new StackLayout { Children = { frame, picker } };
             //st.GestureRecognizers.Add(swipe);
             //picker.GestureRecognizers.Add(swipe);
             Content = st;
