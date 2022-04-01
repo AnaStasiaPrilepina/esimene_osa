@@ -16,7 +16,12 @@ namespace esimene_osa
         WebView webView;
         StackLayout st;
         string[] lehed = new string[4] { "https://tahvel.edu.ee", "https://moodle.edu.ee", "https://www.tthk.ee", "https://www.google.com" };
-        Frame frame;
+        //List<string> lehed = new List<string> {"leht1", "leht2", "leht3" };
+        Frame button;
+        Grid gr;
+        Editor ed;
+        Label lb;
+        Button save;
         ImageButton home, back, next;
         public picker_page()
         {
@@ -53,7 +58,41 @@ namespace esimene_osa
                 Orientation = StackOrientation.Horizontal,
             };
 
-            frame = new Frame
+            ed = new Editor
+            {
+                Placeholder = "Sisesta siia teksti",
+                BackgroundColor = Color.White,
+                TextColor = Color.Red
+            };
+            ed.TextChanged += Ed_TextChanged;
+            lb = new Label
+            {
+                Text = "Mingi tekst",
+                TextColor = Color.DarkBlue
+            };
+            save = new Button
+            {
+                Text = "enter"
+            };
+            //save.Clicked += Save_Clicked;
+            gr = new Grid
+            {
+                RowDefinitions =
+                {
+                    new RowDefinition { },
+                    new RowDefinition { }
+                },
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { },
+                    new ColumnDefinition { }
+                }
+            };
+            gr.Children.Add(ed, 0, 0);
+            gr.Children.Add(lb, 0, 1);
+            gr.Children.Add(save, 1, 0);
+
+            button = new Frame
             {
                 Content = buttons,
                 BorderColor = Color.Black,
@@ -63,11 +102,26 @@ namespace esimene_osa
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center
             };
-            frame.GestureRecognizers.Add(swipe);
-            st = new StackLayout { Children = { frame, picker } };
+            button.GestureRecognizers.Add(swipe);
+            st = new StackLayout { Children = { button, gr, picker } };
             //st.GestureRecognizers.Add(swipe);
             //picker.GestureRecognizers.Add(swipe);
             Content = st;
+        }
+        
+        //private void Save_Clicked(object sender, EventArgs e) { }
+
+        int i = 0;
+        private void Ed_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ed.TextChanged -= Ed_TextChanged;
+            char key = e.NewTextValue?.LastOrDefault() ?? ' ';
+            if (key == 'A')
+            {
+                i++;
+                lb.Text = key.ToString() + ": " + i;
+            }
+            ed.TextChanged += Ed_TextChanged;
         }
 
         private void Swipe_Swiped(object sender, SwipedEventArgs e)
