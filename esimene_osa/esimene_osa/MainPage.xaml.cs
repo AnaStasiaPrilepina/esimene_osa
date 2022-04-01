@@ -12,7 +12,7 @@ namespace esimene_osa
     {
         public MainPage()
         {
-            Button ent_btn, timer_btn, boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn;
+            Button ent_btn, timer_btn, boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn, picker_btn;
             InitializeComponent();
             ent_btn = new Button
             {
@@ -59,10 +59,15 @@ namespace esimene_osa
                 Text = "Valgusfoor task",
                 BackgroundColor = Color.Wheat,
             };
+            picker_btn = new Button
+            {
+                Text = "Picker Page",
+                BackgroundColor = Color.White,
+            };
 
             StackLayout st = new StackLayout
             {
-                Children = { ent_btn, timer_btn, boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn}
+                Children = { ent_btn, timer_btn, boxview_btn, datetime_btn, stepslider_btn, rgb_btn, frame_btn, image_btn, valgusfoor_btn, picker_btn }
             };
             st.BackgroundColor = Color.LightBlue;
             Content = st;
@@ -76,6 +81,12 @@ namespace esimene_osa
             frame_btn.Clicked += Frame_btn_Clicked;
             image_btn.Clicked += Image_btn_Clicked;
             valgusfoor_btn.Clicked += Valgusfoor_btn_Clicked;
+            picker_btn.Clicked += Picker_btn_Clicked;
+        }
+
+        private async void Picker_btn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new picker_page());
         }
 
         private async void Valgusfoor_btn_Clicked(object sender, EventArgs e)
