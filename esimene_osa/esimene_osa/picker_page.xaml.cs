@@ -15,14 +15,11 @@ namespace esimene_osa
         Picker picker;
         WebView webView;
         StackLayout st;
-        string[] lehed = new string[4] { "https://tahvel.edu.ee", "https://moodle.edu.ee", "https://www.tthk.ee", "https://www.google.com" };
-        //List<string> lehed = new List<string> {"leht1", "leht2", "leht3" };
+        //string[] lehed = new string[4] { "https://tahvel.edu.ee", "https://moodle.edu.ee", "https://www.tthk.ee", "https://www.google.com" };
+        List<string> lehed = new List<string> { "https://tahvel.edu.ee/", "https://moodle.edu.ee/", "https://www.tthk.ee/", "https://www.google.com/" };
         Frame button;
-        Grid gr;
-        Editor ed;
-        Label lb;
-        Button save;
         ImageButton home, back, next;
+        Button url;
         public picker_page()
         {
             picker = new Picker
@@ -34,6 +31,7 @@ namespace esimene_osa
             picker.Items.Add("TTHK");
             picker.Items.Add("Google");
             picker.SelectedIndexChanged += Picker_SelectedIndexChanged;
+
             webView = new WebView { };
             SwipeGestureRecognizer swipe = new SwipeGestureRecognizer();
             swipe.Swiped += Swipe_Swiped;
@@ -44,53 +42,31 @@ namespace esimene_osa
             {
                 Source = "home.png",
             };
+            home.Clicked += Home_Clicked;
             back = new ImageButton
             {
                 Source = "back.png",
             };
+            back.Clicked += Back_Clicked;
             next = new ImageButton
             {
                 Source = "next.jpg"
             };
+            next.Clicked += Next_Clicked;
+
             StackLayout buttons = new StackLayout 
             { 
                 Children = {back, home, next},
                 Orientation = StackOrientation.Horizontal,
             };
 
-            ed = new Editor
+            url = new Button
             {
-                Placeholder = "Sisesta siia teksti",
-                BackgroundColor = Color.White,
-                TextColor = Color.Red
+                Text = "Uus webilehed",
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Start
             };
-            ed.TextChanged += Ed_TextChanged;
-            lb = new Label
-            {
-                Text = "Mingi tekst",
-                TextColor = Color.DarkBlue
-            };
-            save = new Button
-            {
-                Text = "enter"
-            };
-            //save.Clicked += Save_Clicked;
-            gr = new Grid
-            {
-                RowDefinitions =
-                {
-                    new RowDefinition { },
-                    new RowDefinition { }
-                },
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { },
-                    new ColumnDefinition { }
-                }
-            };
-            gr.Children.Add(ed, 0, 0);
-            gr.Children.Add(lb, 0, 1);
-            gr.Children.Add(save, 1, 0);
+            url.Clicked += Url_Clicked;
 
             button = new Frame
             {
@@ -103,26 +79,51 @@ namespace esimene_osa
                 VerticalOptions = LayoutOptions.Center
             };
             button.GestureRecognizers.Add(swipe);
-            st = new StackLayout { Children = { button, gr, picker } };
+            st = new StackLayout { Children = { url, button, picker } };
             //st.GestureRecognizers.Add(swipe);
             //picker.GestureRecognizers.Add(swipe);
             Content = st;
         }
-        
-        //private void Save_Clicked(object sender, EventArgs e) { }
 
-        int i = 0;
-        private void Ed_TextChanged(object sender, TextChangedEventArgs e)
+        private async void Url_Clicked(object sender, EventArgs e)
         {
-            ed.TextChanged -= Ed_TextChanged;
-            char key = e.NewTextValue?.LastOrDefault() ?? ' ';
-            if (key == 'A')
+            string site = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "https://", keyboard: Keyboard.Text);
+            lehed.Add(site);
+            //string site2 = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "", keyboard: Keyboard.Text);
+            //picker.Items.Add(site2);
+            if (webView != null)
             {
-                i++;
-                lb.Text = key.ToString() + ": " + i;
+                st.Children.Remove(webView);
             }
-            ed.TextChanged += Ed_TextChanged;
+            webView = new WebView
+            {
+                Source = new UrlWebViewSource { Url = site },
+                VerticalOptions = LayoutOptions.FillAndExpand,
+            };
+            st.Children.Add(webView);
         }
+
+        private void Next_Clicked(object sender, EventArgs e)
+        {
+            if (webView.CanGoForward)
+            {
+                webView.GoForward();
+            }
+        }
+
+        private void Back_Clicked(object sender, EventArgs e)
+        {
+            if (webView.CanGoBack)
+            {
+                webView.GoBack();
+            }
+        }
+
+        private async void Home_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new picker_page());
+        }
+
 
         private void Swipe_Swiped(object sender, SwipedEventArgs e)
         {
