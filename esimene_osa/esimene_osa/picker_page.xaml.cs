@@ -134,23 +134,23 @@ namespace esimene_osa
             }
         }
 
-        private async void Url_Clicked(object sender, EventArgs e)
-        {
-            string site = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "", keyboard: Keyboard.Text);
-            lehed.Add(site);
-            //string site2 = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "", keyboard: Keyboard.Text);
-            picker.Items.Add(site);
-            if (webView != null)
-            {
-                st.Children.Remove(webView);
-            }
-            webView = new WebView
-            {
-                Source = new UrlWebViewSource { Url = site },
-                VerticalOptions = LayoutOptions.FillAndExpand,
-            };
-            st.Children.Add(webView);
-        }
+        //private async void Url_Clicked(object sender, EventArgs e)
+        //{
+        //    string site = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "", keyboard: Keyboard.Text);
+        //    lehed.Add(site);
+        //    //string site2 = await DisplayPromptAsync("Uus veebileht?", "Sisesta URL", initialValue: "", keyboard: Keyboard.Text);
+        //    picker.Items.Add(site);
+        //    if (webView != null)
+        //    {
+        //        st.Children.Remove(webView);
+        //    }
+        //    webView = new WebView
+        //    {
+        //        Source = new UrlWebViewSource { Url = site },
+        //        VerticalOptions = LayoutOptions.FillAndExpand,
+        //    };
+        //    st.Children.Add(webView);
+        //}
 
         private void Swipe_Swiped(object sender, SwipedEventArgs e)
         {
